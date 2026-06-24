@@ -242,6 +242,7 @@
   .tab-btn.active-blue { background: var(--blue); color: #fff; }
   .tab-btn.active-purple { background: var(--purple); color: #fff; }
   .tab-btn.active-green { background: var(--green); color: #fff; }
+  .tab-btn.active-amber { background: var(--amber); color: #fff; }
   .tab-btn:not([class*="active"]):hover { color: var(--text); }
 
   /* Tab panels */
@@ -397,7 +398,7 @@
     <div class="slide-top-row">
       <div class="slide-top-left">
         <div class="slide-label">Agenda 01</div>
-        <div class="slide-heading">매입 계획</div>
+        <div class="slide-heading">매입 / 판매 계획</div>
       </div>
       <div class="kpi-row">
         <div class="kpi-pill kpi-blue">매입 수량 Quantity ↑</div>
@@ -409,6 +410,7 @@
       <button class="tab-btn active-blue" onclick="switchTab(this,'c2b','blue')">① C2B</button>
       <button class="tab-btn" onclick="switchTab(this,'b2b','purple')">② B2B</button>
       <button class="tab-btn" onclick="switchTab(this,'g2b','green')">③ G2B</button>
+      <button class="tab-btn" onclick="switchTab(this,'sales','amber')">④ 판매계획</button>
     </div>
 
     <!-- C2B Panel -->
@@ -562,6 +564,52 @@
       </table>
     </div>
   </div>
+
+    <!-- 판매계획 Panel -->
+    <div class="tab-panel" id="panel-sales">
+      <div class="cat-header" style="background:rgba(217,119,6,0.08);color:#d97706;border:1px solid rgba(217,119,6,0.25)">판매계획 &nbsp;·&nbsp; Sales Plan</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:90px">채널</th>
+            <th style="width:90px">구분</th>
+            <th>전략</th>
+            <th>세부 내용</th>
+            <th style="width:160px">주요 파트너</th>
+            <th style="width:120px">목표</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="divider-row"><td colspan="6">— 온라인</td></tr>
+          <tr>
+            <td class="cell-l2">—</td>
+            <td class="cell-l3">—</td>
+            <td>—</td>
+            <td class="cell-detail">—</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr class="divider-row"><td colspan="6">— 오프라인</td></tr>
+          <tr>
+            <td class="cell-l2">—</td>
+            <td class="cell-l3">—</td>
+            <td>—</td>
+            <td class="cell-detail">—</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr class="divider-row"><td colspan="6">— 파트너십</td></tr>
+          <tr>
+            <td class="cell-l2">—</td>
+            <td class="cell-l3">—</td>
+            <td>—</td>
+            <td class="cell-detail">—</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   <!-- ─────── SLIDE 4: 렌탈 ─────── -->
   <div class="slide s-placeholder" data-slide="4">
