@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 하반기 디지털 계획</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface2: #f1f5f9;
+    --border: rgba(0,0,0,0.09);
+    --blue: #2563eb;
+    --blue-dim: rgba(37,99,235,0.08);
+    --purple: #7c3aed;
+    --purple-dim: rgba(124,58,237,0.08);
+    --green: #059669;
+    --green-dim: rgba(5,150,105,0.08);
+    --amber: #d97706;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --text-subtle: #94a3b8;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  /* ── Progress bar ── */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: var(--blue); z-index: 999;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── Slide container ── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease;
+    overflow: hidden;
+  }
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  /* ── Navigation ── */
+  .nav-bar {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 12px; z-index: 200;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 8px 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -1px 20px rgba(0,0,0,0.08);
+  }
+  .nav-btn {
+    background: none; border: none; color: var(--text-muted);
+    font-size: 18px; cursor: pointer; padding: 2px 8px;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn:disabled { opacity: 0.2; cursor: default; }
+  .nav-dots {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .nav-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--text-subtle); cursor: pointer; transition: all 0.2s;
+  }
+  .nav-dot.active { background: var(--blue); width: 20px; border-radius: 4px; }
+
+  /* ═══════════════════════════════════
+     SLIDE 1 — TITLE
+  ═══════════════════════════════════ */
+  .s-title {
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    gap: 0;
+  }
+
+  .s-title .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .s-title .glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .title-badge {
+    position: relative;
+    display: inline-block;
+    font-size: 11px; letter-spacing: 3px; font-weight: 600;
+    color: var(--blue); text-transform: uppercase;
+    padding: 6px 16px;
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 20px;
+    background: rgba(59,130,246,0.08);
+    margin-bottom: 28px;
+  }
+
+  .s-title h1 {
+    position: relative;
+    font-size: 64px; font-weight: 800; line-height: 1.15;
+    letter-spacing: -1px;
+  }
+  .s-title h1 .accent { color: var(--blue); }
+
+  .s-title .sub {
+    position: relative;
+    margin-top: 16px;
+    font-size: 17px; color: var(--text-muted);
+    font-weight: 400; letter-spacing: 1px;
+  }
+
+  .title-meta {
+    position: relative;
+    margin-top: 52px;
+    display: flex; gap: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .meta-item {
+    padding: 14px 28px; text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .meta-item:last-child { border-right: none; }
+  .meta-label { font-size: 11px; color: var(--text-subtle); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .meta-val { font-size: 14px; color: var(--text); font-weight: 500; }
+
+  /* ═══════════════════════════════════
+     SLIDE 2 — AGENDA
+  ═══════════════════════════════════ */
+  .s-agenda {
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    padding: 52px 72px 80px;
+  }
+
+  .slide-label {
+    font-size: 11px; letter-spacing: 3px; font-weight: 600;
+    color: var(--text-subtle); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .slide-heading {
+    font-size: 32px; font-weight: 700; margin-bottom: 44px;
+  }
+
+  .agenda-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    flex: 1;
+  }
+  .agenda-card {
+    background: var(--surface);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 16px; padding: 32px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    cursor: pointer; transition: all 0.25s;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .agenda-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .agenda-card:nth-child(1)::after { background: var(--blue); }
+  .agenda-card:nth-child(2)::after { background: var(--purple); }
+  .agenda-card:nth-child(3)::after { background: var(--green); }
+  .agenda-card:nth-child(4)::after { background: var(--amber); }
+  .agenda-card:hover { transform: translateY(-4px); border-color: rgba(37,99,235,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+
+  .a-num {
+    font-size: 52px; font-weight: 900; line-height: 1;
+    margin-bottom: 20px; opacity: 0.1;
+  }
+  .agenda-card:nth-child(1) .a-num { color: var(--blue); }
+  .agenda-card:nth-child(2) .a-num { color: var(--purple); }
+  .agenda-card:nth-child(3) .a-num { color: var(--green); }
+  .agenda-card:nth-child(4) .a-num { color: var(--amber); }
+
+  .a-title { font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+  .a-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; flex: 1; }
+  .a-arrow {
+    margin-top: 20px; font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .agenda-card:nth-child(1) .a-arrow { color: var(--blue); }
+  .agenda-card:nth-child(2) .a-arrow { color: var(--purple); }
+  .agenda-card:nth-child(3) .a-arrow { color: var(--green); }
+  .agenda-card:nth-child(4) .a-arrow { color: var(--amber); }
+
+  /* ═══════════════════════════════════
+     SLIDE 3 — 매입 계획
+  ═══════════════════════════════════ */
+  .s-purchase {
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    padding: 44px 64px 80px;
+  }
+
+  .slide-top-row {
+    display: flex; align-items: flex-end; gap: 0;
+    justify-content: space-between; margin-bottom: 28px;
+  }
+  .slide-top-left .slide-label { margin-bottom: 4px; }
+  .slide-top-left .slide-heading { margin-bottom: 0; font-size: 28px; }
+  .kpi-row { display: flex; gap: 12px; }
+  .kpi-pill {
+    font-size: 12px; font-weight: 600; padding: 5px 14px;
+    border-radius: 20px; border: 1px solid;
+  }
+  .kpi-blue { color: var(--blue); border-color: rgba(59,130,246,0.35); background: var(--blue-dim); }
+  .kpi-green { color: var(--green); border-color: rgba(16,185,129,0.35); background: var(--green-dim); }
+
+  /* Tabs */
+  .tabs {
+    display: flex; gap: 4px; margin-bottom: 20px;
+    background: var(--surface); border-radius: 12px;
+    padding: 4px; width: fit-content;
+  }
+  .tab-btn {
+    padding: 7px 20px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    border: none; color: var(--text-muted); background: none;
+  }
+  .tab-btn.active-blue { background: var(--blue); color: #fff; }
+  .tab-btn.active-purple { background: var(--purple); color: #fff; }
+  .tab-btn.active-green { background: var(--green); color: #fff; }
+  .tab-btn:not([class*="active"]):hover { color: var(--text); }
+
+  /* Tab panels */
+  .tab-panel { display: none; flex: 1; overflow-y: auto; }
+  .tab-panel.show { display: flex; flex-direction: column; gap: 12px; }
+
+  /* Custom scrollbar */
+  .tab-panel::-webkit-scrollbar { width: 4px; }
+  .tab-panel::-webkit-scrollbar-track { background: transparent; }
+  .tab-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* Category header */
+  .cat-header {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 700;
+    padding: 8px 14px; border-radius: 8px; width: fit-content;
+    letter-spacing: 0.5px;
+  }
+  .cat-blue { background: var(--blue-dim); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
+  .cat-purple { background: var(--purple-dim); color: #a78bfa; border: 1px solid rgba(139,92,246,0.25); }
+  .cat-green { background: var(--green-dim); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+
+  /* Data table */
+  .data-table {
+    width: 100%; border-collapse: collapse;
+    background: var(--surface); border-radius: 12px;
+    overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .data-table th {
+    text-align: left; font-size: 11px; font-weight: 600;
+    color: var(--text-subtle); letter-spacing: 1px; text-transform: uppercase;
+    padding: 11px 14px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 11px 14px; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: middle; line-height: 1.5;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(0,0,0,0.02); }
+
+  .cell-l1 { color: #2563eb; font-weight: 700; font-size: 13px; white-space: nowrap; }
+  .cell-l2 { color: var(--text); font-weight: 600; white-space: nowrap; }
+  .cell-l3 { color: var(--text-muted); }
+  .cell-detail { color: #64748b; font-size: 12px; }
+
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 20px; margin: 2px 2px 2px 0;
+    white-space: nowrap;
+  }
+  .bd-blue { background: var(--blue-dim); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+  .bd-purple { background: var(--purple-dim); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.2); }
+  .bd-green { background: var(--green-dim); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.2); }
+  .bd-gray { background: rgba(255,255,255,0.06); color: var(--text-muted); border: 1px solid var(--border); }
+
+  .why-tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px; margin: 2px 2px 2px 0;
+  }
+  .why-qty { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.25); }
+  .why-price { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+
+  /* Divider row */
+  .divider-row td {
+    padding: 6px 14px; background: rgba(0,0,0,0.025);
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    color: var(--text-subtle); text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════════
+     SLIDE 4, 5 — PLACEHOLDER
+  ═══════════════════════════════════ */
+  .s-placeholder {
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    padding: 44px 64px 80px;
+  }
+  .placeholder-body {
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; gap: 16px;
+  }
+  .ph-icon { font-size: 56px; opacity: 0.15; }
+  .ph-text { font-size: 16px; color: var(--text-subtle); }
+  .ph-sub { font-size: 13px; color: rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:20%"></div>
+
+<div class="deck">
+
+  <!-- ─────── SLIDE 1: TITLE ─────── -->
+  <div class="slide s-title active" data-slide="1">
+    <div class="grid-bg"></div>
+    <div class="glow"></div>
+    <div class="title-badge">Digital Business Development</div>
+    <h1>2026 <span class="accent">하반기</span><br>디지털 계획</h1>
+    <p class="sub">H2 2026 Digital Business Plan</p>
+    <div class="title-meta">
+      <div class="meta-item">
+        <div class="meta-label">파트</div>
+        <div class="meta-val">Digital BD</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">기간</div>
+        <div class="meta-val">2026. 07 — 12</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">버전</div>
+        <div class="meta-val">v1.0 Draft</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── SLIDE 2: AGENDA ─────── -->
+  <div class="slide s-agenda" data-slide="2">
+    <div class="slide-label">Overview</div>
+    <div class="slide-heading">Agenda</div>
+    <div class="agenda-grid">
+      <div class="agenda-card" onclick="goTo(3)">
+        <div class="a-num">01</div>
+        <div class="a-title">매입 / 판매 계획</div>
+        <div class="a-desc">C2B · B2B · G2B 채널별 매입 전략 및<br>판매 운영 계획</div>
+        <div class="a-arrow">바로가기 →</div>
+      </div>
+      <div class="agenda-card" onclick="goTo(4)">
+        <div class="a-num">02</div>
+        <div class="a-title">렌탈 사업 계획</div>
+        <div class="a-desc">렌탈 서비스 론칭 및 운영 모델<br>구축 계획</div>
+        <div class="a-arrow">바로가기 →</div>
+      </div>
+      <div class="agenda-card" onclick="goTo(5)">
+        <div class="a-num">03</div>
+        <div class="a-title">카테고리 확장 계획</div>
+        <div class="a-desc">신규 카테고리 발굴 및<br>단계적 확장 전략</div>
+        <div class="a-arrow">바로가기 →</div>
+      </div>
+      <div class="agenda-card" onclick="goTo(6)">
+        <div class="a-num">04</div>
+        <div class="a-title">개통 및 유심 계획</div>
+        <div class="a-desc">개통 채널 확장 및<br>유심 사업 운영 계획</div>
+        <div class="a-arrow">바로가기 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── SLIDE 3: 매입 계획 ─────── -->
+  <div class="slide s-purchase" data-slide="3">
+    <div class="slide-top-row">
+      <div class="slide-top-left">
+        <div class="slide-label">Agenda 01</div>
+        <div class="slide-heading">매입 계획</div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-pill kpi-blue">매입 수량 Quantity ↑</div>
+        <div class="kpi-pill kpi-green">매입 원가 Pricing ↓</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active-blue" onclick="switchTab(this,'c2b','blue')">① C2B</button>
+      <button class="tab-btn" onclick="switchTab(this,'b2b','purple')">② B2B</button>
+      <button class="tab-btn" onclick="switchTab(this,'g2b','green')">③ G2B</button>
+    </div>
+
+    <!-- C2B Panel -->
+    <div class="tab-panel show" id="panel-c2b">
+      <div class="cat-header cat-blue">C2B &nbsp;·&nbsp; Consumer to Business</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:90px">채널</th>
+            <th style="width:90px">구분</th>
+            <th>전략</th>
+            <th>세부 내용</th>
+            <th style="width:160px">주요 파트너</th>
+            <th style="width:120px">목표</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="divider-row"><td colspan="6">— Inbound</td></tr>
+          <tr>
+            <td rowspan="3" class="cell-l2">내폰판매</td>
+            <td class="cell-l3">Qty-based<br>Purchase ↑</td>
+            <td>내폰판매 최고가 보장</td>
+            <td class="cell-detail">경쟁사 대비 최고가 매입 보장으로 유입 극대화</td>
+            <td>—</td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+          <tr>
+            <td class="cell-l3">모델 Expansion<br>Coverage</td>
+            <td>구형 모델 확장 매입</td>
+            <td class="cell-detail">기존 미매입 구형/단종 모델 커버리지 확대</td>
+            <td>—</td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+          <tr>
+            <td class="cell-l3">등급 Expansion<br>Coverage</td>
+            <td>파손/폐 등급 확장 매입</td>
+            <td class="cell-detail">파손·폐기 등급까지 수용 확대</td>
+            <td>—</td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+          <tr>
+            <td rowspan="3" class="cell-l2">채널링</td>
+            <td class="cell-l3">Traffic Based</td>
+            <td>트래픽 기반 유입</td>
+            <td class="cell-detail">고트래픽 플랫폼 연계 매입 유입 확보</td>
+            <td><span class="badge bd-blue">우체국</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+          <tr>
+            <td class="cell-l3">Quantity Based</td>
+            <td>구형/폐폰 수량 베이스</td>
+            <td class="cell-detail">중고폰 보유 수량 보유처와 직접 연계</td>
+            <td><span class="badge bd-blue">빼기</span><span class="badge bd-blue">아름다운 가게</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+          <tr>
+            <td class="cell-l3">Device Based</td>
+            <td>스마트폰 구매 이후 단계</td>
+            <td class="cell-detail">신규 기기 구매 직후 구폰 매입 연결</td>
+            <td><span class="badge bd-blue">헬로비전</span><span class="badge bd-blue">세브모바일</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+          <tr class="divider-row"><td colspan="6">— Outbound</td></tr>
+          <tr>
+            <td class="cell-l2">IN APP</td>
+            <td class="cell-l3">개인 상품<br>직접 구매</td>
+            <td>번개장터 내 개인 상품 매입</td>
+            <td class="cell-detail">앱 내 개인 판매 상품 직접 구매·매입</td>
+            <td><span class="badge bd-purple">번개장터</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span><span class="why-tag why-price">원가 ↓</span></td>
+          </tr>
+          <tr>
+            <td class="cell-l2">OUT APP</td>
+            <td class="cell-l3">외부 플랫폼<br>직접 구매</td>
+            <td>중고거래 플랫폼 상품 매입</td>
+            <td class="cell-detail">외부 중고 마켓 개인 판매 상품 직접 매입</td>
+            <td><span class="badge bd-purple">N플리마켓</span><span class="badge bd-purple">당근</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span><span class="why-tag why-price">원가 ↓</span></td>
+          </tr>
+          <tr>
+            <td class="cell-l2">기업 임직원</td>
+            <td class="cell-l3">B2E<br>직접 구매</td>
+            <td>기업 임직원 중고폰 직접 매입</td>
+            <td class="cell-detail">기업 파트너십 통해 임직원 대상 매입 채널 구축</td>
+            <td><span class="badge bd-purple">카카오</span><span class="badge bd-purple">토스</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span><span class="why-tag why-price">원가 ↓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- B2B Panel -->
+    <div class="tab-panel" id="panel-b2b">
+      <div class="cat-header cat-purple">B2B &nbsp;·&nbsp; Business to Business</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:110px">방식</th>
+            <th style="width:100px">채널</th>
+            <th>전략</th>
+            <th>세부 내용</th>
+            <th style="width:160px">주요 파트너</th>
+            <th style="width:90px">목표</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-l1" style="color:#a78bfa">Bidding<br><span style="font-size:11px;font-weight:400;color:var(--text-subtle)">선 매입</span></td>
+            <td class="cell-l2">제조사</td>
+            <td>제조사 물량 대량 매입 (2 Tier)</td>
+            <td class="cell-detail">제조사 직접 채널 통한 2-Tier 대량 Bidding 매입</td>
+            <td><span class="badge bd-blue">애플</span><span class="badge bd-blue">삼성</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+          <tr>
+            <td class="cell-l1" style="color:#a78bfa">Bidding<br><span style="font-size:11px;font-weight:400;color:var(--text-subtle)">선 매입</span></td>
+            <td class="cell-l2">렌탈사</td>
+            <td>렌탈사 매각 물량 대량 매입</td>
+            <td class="cell-detail">렌탈 계약 만료 물량 선 Bidding 확보</td>
+            <td><span class="badge bd-blue">한국렌탈</span><span class="badge bd-blue">AJ렌탈</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- G2B Panel -->
+    <div class="tab-panel" id="panel-g2b">
+      <div class="cat-header cat-green">G2B &nbsp;·&nbsp; Government to Business</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:110px">방식</th>
+            <th style="width:100px">채널</th>
+            <th>전략</th>
+            <th>세부 내용</th>
+            <th style="width:160px">주요 파트너</th>
+            <th style="width:90px">목표</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-l1" style="color:#34d399">Bidding<br><span style="font-size:11px;font-weight:400;color:var(--text-subtle)">선 매입</span></td>
+            <td class="cell-l2">나라장터</td>
+            <td>공공 입찰 물량 대량 매입</td>
+            <td class="cell-detail">공공기관 노후 장비 입찰 참여를 통한 대량 매입</td>
+            <td><span class="badge bd-green">경찰청</span><span class="badge bd-green">교육부</span></td>
+            <td><span class="why-tag why-qty">수량 ↑</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─────── SLIDE 4: 렌탈 ─────── -->
+  <div class="slide s-placeholder" data-slide="4">
+    <div class="slide-label">Agenda 02</div>
+    <div class="slide-heading" style="color:#a78bfa">렌탈 사업 계획</div>
+    <div class="placeholder-body">
+      <div class="ph-icon">🔧</div>
+      <div class="ph-text">내용을 채워주세요</div>
+      <div class="ph-sub">렌탈 사업 계획 내용을 알려주시면 슬라이드를 완성해 드릴게요</div>
+    </div>
+  </div>
+
+  <!-- ─────── SLIDE 5: 카테고리 ─────── -->
+  <div class="slide s-placeholder" data-slide="5">
+    <div class="slide-label">Agenda 03</div>
+    <div class="slide-heading" style="color:#34d399">카테고리 확장 계획</div>
+    <div class="placeholder-body">
+      <div class="ph-icon">📦</div>
+      <div class="ph-text">내용을 채워주세요</div>
+      <div class="ph-sub">카테고리 확장 계획 내용을 알려주시면 슬라이드를 완성해 드릴게요</div>
+    </div>
+  </div>
+
+  <!-- ─────── SLIDE 6: 개통및유심 ─────── -->
+  <div class="slide s-purchase" data-slide="6">
+    <div class="slide-top-row">
+      <div class="slide-top-left">
+        <div class="slide-label">Agenda 04</div>
+        <div class="slide-heading">개통 및 유심 계획</div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-pill" style="color:#f59e0b;border-color:rgba(245,158,11,0.35);background:rgba(245,158,11,0.1)">유통 구조 이해 기반 수익 최적화</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn" id="tab-usim-1" onclick="switchTabUsim(this,'usim-overview')" style="background:rgba(245,158,11,0.15);color:#d97706">개통 개요</button>
+      <button class="tab-btn" onclick="switchTabUsim(this,'usim-flow')">유통 구조</button>
+      <button class="tab-btn" onclick="switchTabUsim(this,'usim-term')">용어 정리</button>
+      <button class="tab-btn" onclick="switchTabUsim(this,'usim-rev')">수익 구조</button>
+      <button class="tab-btn" onclick="switchTabUsim(this,'usim-price')">가격 비교</button>
+    </div>
+
+    <!-- 개통 개요 -->
+    <div class="tab-panel show" id="panel-usim-overview">
+      <div style="display:flex;flex-direction:column;gap:12px;height:100%;overflow-y:auto">
+
+        <!-- 두 모델 기본 개요 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:#eff6ff;border:2px solid #2563eb;border-radius:12px;padding:16px">
+            <div style="font-size:10px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:8px">📱 단말기 개통 판매</div>
+            <div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px">단말기 + 요금제 결합 판매(가입) 유치</div>
+            <div style="font-size:12px;color:#475569;line-height:1.7">스마트폰과 통신 요금제를 결합하여 판매하는 형태. 출고가에서 통신사·유통망 지원금을 공제받아 실제 구매가를 낮추고 월 납부액으로 환산.</div>
+            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+              <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">제조사: 삼성/애플</span>
+              <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">MNO/MVNO</span>
+              <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">자체 요금제</span>
+            </div>
+          </div>
+          <div style="background:#f0fdf4;border:2px solid #059669;border-radius:12px;padding:16px">
+            <div style="font-size:10px;font-weight:700;color:#059669;letter-spacing:1px;margin-bottom:8px">📶 유심 개통 판매</div>
+            <div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px">요금제 (USIM/eSIM) 단독 판매(가입) 유치</div>
+            <div style="font-size:12px;color:#475569;line-height:1.7">단말기 없이 USIM/eSIM 기반 요금제 가입만을 중개하는 방식. MVNO 유심 요금제 보편화, 최근 MNO 유심 요금제도 시장 진입.</div>
+            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+              <span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">단말기 없음</span>
+              <span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">MNO/MVNO</span>
+              <span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">자체 요금제</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 핵심 차이 요약 (Ch.4) -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">핵심 차이 요약 (Chapter 4)</div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:130px">비교 항목</th>
+                <th>📱 단말기 개통</th>
+                <th>📶 유심 개통 Only</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-l2">수익 단가</td>
+                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; 건당 3~12만원 이상</td>
+                <td><span class="why-tag why-qty" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; 건당 5,000~20,000원</td>
+              </tr>
+              <tr>
+                <td class="cell-l2">초기 진입장벽</td>
+                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; MNO 계약 + 단말 재고 + 오프라인 거점</td>
+                <td><span class="why-tag" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; MVNO API 연동만으로 진입 가능</td>
+              </tr>
+              <tr>
+                <td class="cell-l2">운영 복잡도</td>
+                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; 재고, 정산, 클로백, A/S</td>
+                <td><span class="why-tag" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; 개통 중계만 처리</td>
+              </tr>
+              <tr>
+                <td class="cell-l2">중고폰 연계</td>
+                <td style="color:#dc2626">MNO 정책상 외부 중고폰 연계 불가</td>
+                <td style="color:#059669">✅ 중고폰 구매 후 MVNO 개통 연결 자연스러움</td>
+              </tr>
+              <tr>
+                <td class="cell-l2">Lock-in</td>
+                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; 24개월 약정 + 가족결합</td>
+                <td><span class="why-tag" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; 무약정 자유 해지</td>
+              </tr>
+              <tr>
+                <td class="cell-l2">플랫폼 BM 적합도</td>
+                <td style="color:#dc2626">낮음 — 오프라인 기반, 플랫폼 경유 시 수익 감소</td>
+                <td style="color:#059669">높음 — CPA 방식, 온라인 중계 모델에 최적화</td>
+              </tr>
+              <tr>
+                <td class="cell-l2" style="color:#d97706;font-weight:700">번개장터 진입 가능성</td>
+                <td style="color:#dc2626">낮음 — MNO 자격 필수, 중고폰→MNO 연계 구조적 차단</td>
+                <td style="color:#059669;font-weight:600">✅ 가능 — MVNO 판매점 계약만으로 진입, 중고폰 구매 고객 → USIM 개통 자연 연결</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 가입 유형 비교 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div style="background:#fff7ed;border:1px solid rgba(217,119,6,0.25);border-radius:10px;padding:12px">
+            <div style="font-size:10px;font-weight:700;color:#d97706;letter-spacing:1px;margin-bottom:6px">번호이동</div>
+            <div style="font-size:11px;color:#475569;line-height:1.8">순증: 자사+1 / 타사-1<br>통신사 선호도: ★★★<br>장려금: 5~15만원<br><span style="color:#059669;font-weight:600">소비자 혜택 가장 풍부</span></div>
+          </div>
+          <div style="background:#f0f9ff;border:1px solid rgba(37,99,235,0.2);border-radius:10px;padding:12px">
+            <div style="font-size:10px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:6px">신규 가입</div>
+            <div style="font-size:11px;color:#475569;line-height:1.8">순증: 자사+1 / 타사 0<br>통신사 선호도: ★★☆<br>장려금: 3~7만원<br><span style="color:#2563eb;font-weight:600">중간 수준</span></div>
+          </div>
+          <div style="background:#f8fafc;border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:12px">
+            <div style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1px;margin-bottom:6px">기기변경</div>
+            <div style="font-size:11px;color:#475569;line-height:1.8">순증: 변동 없음<br>통신사 선호도: ★☆☆<br>장려금: 1~3만원<br><span style="color:#94a3b8;font-weight:600">혜택 가장 적음</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 유통 구조 다이어그램 -->
+    <div class="tab-panel" id="panel-usim-flow">
+      <div style="display:flex;flex-direction:column;gap:14px;height:100%">
+
+        <!-- Flow nodes -->
+        <div style="background:var(--surface);border-radius:12px;padding:24px 28px">
+          <div style="font-size:12px;color:var(--text-subtle);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px">휴대폰 개통 유통 흐름</div>
+          <div style="display:flex;align-items:center;margin-bottom:20px">
+
+            <!-- 본사 -->
+            <div style="flex-shrink:0;width:120px;padding:14px 10px;background:#eff6ff;border:2px solid #3b82f6;border-radius:12px;text-align:center">
+              <div style="font-size:10px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:6px">본사 (이통사)</div>
+              <div style="font-size:22px;margin-bottom:4px">🏢</div>
+              <div style="font-size:10px;color:var(--text-subtle)">KT · SKT · LGU+</div>
+            </div>
+
+            <!-- arrow 1 -->
+            <div style="flex:1;padding:0 6px;text-align:center">
+              <div style="font-size:10px;font-weight:600;color:#60a5fa;margin-bottom:5px">정책 / 지원금<br>장려금 지급</div>
+              <div style="position:relative;height:2px;background:linear-gradient(90deg,#3b82f6,#8b5cf6)">
+                <div style="position:absolute;right:-1px;top:-4px;width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid #8b5cf6"></div>
+              </div>
+            </div>
+
+            <!-- 대리점 -->
+            <div style="flex-shrink:0;width:120px;padding:14px 10px;background:#f5f3ff;border:2px solid #8b5cf6;border-radius:12px;text-align:center">
+              <div style="font-size:10px;font-weight:700;color:#7c3aed;letter-spacing:1px;margin-bottom:6px">대리점</div>
+              <div style="font-size:22px;margin-bottom:4px">🏪</div>
+              <div style="font-size:10px;color:var(--text-subtle)">공식 파트너</div>
+            </div>
+
+            <!-- arrow 2 -->
+            <div style="flex:1;padding:0 6px;text-align:center">
+              <div style="font-size:10px;font-weight:600;color:#8b5cf6;margin-bottom:5px">정책 공유<br>마진 후 전달</div>
+              <div style="position:relative;height:2px;background:linear-gradient(90deg,#8b5cf6,#10b981)">
+                <div style="position:absolute;right:-1px;top:-4px;width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid #10b981"></div>
+              </div>
+            </div>
+
+            <!-- 판매점 -->
+            <div style="flex-shrink:0;width:120px;padding:14px 10px;background:#f0fdf4;border:2px solid #10b981;border-radius:12px;text-align:center">
+              <div style="font-size:10px;font-weight:700;color:#059669;letter-spacing:1px;margin-bottom:6px">판매점 (성지)</div>
+              <div style="font-size:22px;margin-bottom:4px">🏬</div>
+              <div style="font-size:10px;color:var(--text-subtle)">하위 판매 채널</div>
+            </div>
+
+            <!-- arrow 3 -->
+            <div style="flex:1;padding:0 6px;text-align:center">
+              <div style="font-size:10px;font-weight:600;color:#10b981;margin-bottom:5px">기기 + 할인</div>
+              <div style="position:relative;height:2px;background:linear-gradient(90deg,#10b981,#f59e0b)">
+                <div style="position:absolute;right:-1px;top:-4px;width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid #f59e0b"></div>
+              </div>
+            </div>
+
+            <!-- 고객 -->
+            <div style="flex-shrink:0;width:100px;padding:14px 10px;background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;text-align:center">
+              <div style="font-size:10px;font-weight:700;color:#d97706;letter-spacing:1px;margin-bottom:6px">고객</div>
+              <div style="font-size:22px;margin-bottom:4px">👤</div>
+              <div style="font-size:10px;color:var(--text-subtle)">최종 소비자</div>
+            </div>
+          </div>
+
+          <!-- 월 요금 역방향 -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(217,119,6,0.06);border:1px solid rgba(217,119,6,0.15);border-radius:8px">
+            <div style="font-size:12px;color:#fbbf24;font-weight:700">← 고객 → 본사 (월 요금)</div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:12px;color:var(--text-muted)">월 95,000원 × 24개월</span>
+              <span style="font-size:15px;font-weight:800;color:#fbbf24">= 2,280,000원</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 투자 vs 회수 + 수익원 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:14px">
+          <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:#f87171;font-weight:600;margin-bottom:6px">가입 시 본사 투입</div>
+            <div style="font-size:22px;font-weight:800;color:#f87171;margin-bottom:2px">50~100만원</div>
+            <div style="font-size:11px;color:var(--text-subtle)">지원금 + 장려금 + 마케팅</div>
+          </div>
+          <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:#34d399;font-weight:600;margin-bottom:6px">24개월 요금 회수</div>
+            <div style="font-size:22px;font-weight:800;color:#34d399;margin-bottom:2px">228만원</div>
+            <div style="font-size:11px;color:var(--text-subtle)">월 95,000원 × 24개월</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+            <div>
+              <div style="font-size:10px;color:#60a5fa;font-weight:700;margin-bottom:6px">본사 수익원</div>
+              <div style="font-size:11px;color:var(--text-muted);line-height:1.8">통신료 (1위)<br>부가서비스<br>B2B · IoT<br>망 도매</div>
+            </div>
+            <div>
+              <div style="font-size:10px;color:#a78bfa;font-weight:700;margin-bottom:6px">대리점 수익원</div>
+              <div style="font-size:11px;color:var(--text-muted);line-height:1.8">요금수수료<br>5~7% × 24M<br>장려금<br>(건당 단가표)</div>
+            </div>
+            <div>
+              <div style="font-size:10px;color:#34d399;font-weight:700;margin-bottom:6px">판매점 수익원</div>
+              <div style="font-size:11px;color:var(--text-muted);line-height:1.8">장려금 마진만<br>요금수수료 ✗<br>박리다매<br>구조</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 핵심 결론 -->
+        <div style="padding:10px 16px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);border-radius:8px;font-size:12px;color:var(--text);display:flex;align-items:center;gap:8px">
+          <span style="color:#60a5fa;font-size:14px">💡</span>
+          <span><strong style="color:#60a5fa">핵심 원리</strong> — 중간 마진이 적을수록 고객 가격 ↓ &nbsp;·&nbsp; 지원금은 고객 쪽, 장려금은 매장 쪽으로 흐른다</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 용어 정리 -->
+    <div class="tab-panel" id="panel-usim-term">
+      <div class="cat-header" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);color:#fbbf24;">용어 통일 기준</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:160px">용어</th>
+            <th style="width:160px">별칭</th>
+            <th>설명</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-l2">공통지원금</td>
+            <td><span class="badge bd-gray">공시지원금</span></td>
+            <td>통신사가 누구에게나 공식으로 깎아주는 돈</td>
+          </tr>
+          <tr>
+            <td class="cell-l2">유통망지원금</td>
+            <td><span class="badge bd-gray">추가지원금</span></td>
+            <td>매장이 자기 몫을 떼서 더 깎아주는 돈</td>
+          </tr>
+          <tr>
+            <td class="cell-l2">장려금</td>
+            <td><span class="badge bd-gray">리베이트</span> <span class="badge bd-gray">정책</span></td>
+            <td>본사가 매장에 주는 판매 보너스</td>
+          </tr>
+          <tr>
+            <td class="cell-l2">요금수수료</td>
+            <td><span class="badge bd-gray">관리수수료</span></td>
+            <td>고객 월 요금의 일부를 매장이 가져가는 것</td>
+          </tr>
+          <tr>
+            <td class="cell-l2">마진</td>
+            <td>—</td>
+            <td>매장이 최종적으로 남기는 이익</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;padding:12px 16px;background:rgba(217,119,6,0.06);border:1px solid rgba(217,119,6,0.18);border-radius:10px;font-size:13px;color:#fbbf24;">
+        💡 <strong style='color:#d97706'>핵심 원칙</strong> — 지원금은 <strong>고객 쪽</strong>으로, 장려금은 <strong>매장 쪽</strong>으로
+      </div>
+    </div>
+
+    <!-- 유통 수익 구조 -->
+    <div class="tab-panel" id="panel-usim-rev">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
+        <!-- 본사 -->
+        <div style="background:var(--surface);border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:20px;">
+          <div style="font-size:11px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:8px;">본사 (MNO)</div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px;">요금 100%</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">개인 판매가: 높음</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
+            · 직판 시 요금 100% 본사 매출<br>
+            · 주 매출: 통신료 &gt; 부가서비스 &gt; B2B<br>
+            · 단말기 마진 거의 없음<br>
+            · 전국 직영 불가 → 대리점에 위임
+          </div>
+        </div>
+        <!-- 대리점 -->
+        <div style="background:var(--surface);border:1px solid rgba(139,92,246,0.25);border-radius:12px;padding:20px;">
+          <div style="font-size:11px;font-weight:700;color:#7c3aed;letter-spacing:1px;margin-bottom:8px;">대리점</div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px;">수수료 + 장려금</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">개인 판매가: 중간</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
+            · 요금수수료 5~7%, 24개월간<br>
+            · 장려금: 건당 단가표 기반<br>
+            · 조건 위반 시 환수 리스크<br>
+            · 단가표 매일 변동
+          </div>
+        </div>
+        <!-- 판매점 -->
+        <div style="background:var(--surface);border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:20px;">
+          <div style="font-size:11px;font-weight:700;color:#059669;letter-spacing:1px;margin-bottom:8px;">판매점 (성지)</div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px;">장려금 마진만</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">개인 판매가: 낮음</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
+            · 요금수수료 없음<br>
+            · 여러 대리점 단가표 비교 선택<br>
+            · 박리다매 구조<br>
+            · 개통은 대리점 경유
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 가격 비교 -->
+    <div class="tab-panel" id="panel-usim-price">
+      <div class="cat-header" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);color:#fbbf24;">본사 다이렉트몰 vs 판매점 가격 비교</div>
+      <table class="data-table" style="max-width:600px;">
+        <thead>
+          <tr>
+            <th style="width:160px">구분</th>
+            <th style="width:180px;text-align:right">본사 다이렉트몰</th>
+            <th style="text-align:right">판매점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-l2">출고가</td>
+            <td style="text-align:right;color:var(--text-muted)">1,452,000원</td>
+            <td style="text-align:right;color:var(--text-muted)">1,452,000원</td>
+          </tr>
+          <tr>
+            <td class="cell-l2">공통지원금</td>
+            <td style="text-align:right;color:#f87171">-500,000원</td>
+            <td style="text-align:right;color:#f87171">-500,000원</td>
+          </tr>
+          <tr>
+            <td class="cell-l2">유통망지원금</td>
+            <td style="text-align:right;color:#f87171">-75,000원</td>
+            <td style="text-align:right;color:#f87171">-660,000원</td>
+          </tr>
+          <tr style="background:rgba(245,158,11,0.06);">
+            <td class="cell-l2" style="font-weight:700">최종 기기값</td>
+            <td style="text-align:right;font-weight:700;font-size:15px;color:#fbbf24">877,000원</td>
+            <td style="text-align:right;font-weight:700;font-size:15px;color:#34d399">292,000원</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px;padding:12px 16px;background:rgba(0,0,0,0.02);border:1px solid rgba(0,0,0,0.08);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.8;max-width:600px;">
+        본사는 24개월 요금으로 회수하므로 가입 시 큰 장려금 투입 가능 →<br>
+        장려금이 대리점·판매점을 거쳐 고객 할인으로 환원 → <strong style="color:var(--text)">중간 마진이 적을수록 고객 가격 ↓</strong>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ─────── AGENDA 드롭다운 ─────── -->
+<div id="agenda-dropdown-wrap" style="
+  position: fixed; top: 24px; right: 32px; z-index: 300;
+  display: none;
+">
+  <button id="agenda-toggle" onclick="toggleAgendaMenu()" style="
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 20px;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    font-size: 13px; font-weight: 600; color: #0f172a;
+    cursor: pointer; transition: all 0.2s;
+  ">
+    <span style="font-size:11px;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;font-weight:600">Agenda</span>
+    <span id="agenda-arrow" style="font-size:10px;color:#94a3b8;transition:transform 0.2s">▾</span>
+  </button>
+
+  <div id="agenda-menu" style="
+    display: none; position: absolute; top: calc(100% + 8px); right: 0;
+    background: #ffffff; border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 14px; padding: 6px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    min-width: 200px;
+  ">
+    <div class="ag-item" onclick="agendaGo(3)" data-color="#2563eb">
+      <span class="ag-num" style="background:rgba(37,99,235,0.1);color:#2563eb">01</span>
+      <span>매입 / 판매 계획</span>
+    </div>
+    <div class="ag-item" onclick="agendaGo(4)" data-color="#7c3aed">
+      <span class="ag-num" style="background:rgba(124,58,237,0.1);color:#7c3aed">02</span>
+      <span>렌탈 사업 계획</span>
+    </div>
+    <div class="ag-item" onclick="agendaGo(5)" data-color="#059669">
+      <span class="ag-num" style="background:rgba(5,150,105,0.1);color:#059669">03</span>
+      <span>카테고리 확장 계획</span>
+    </div>
+    <div class="ag-item" onclick="agendaGo(6)" data-color="#d97706">
+      <span class="ag-num" style="background:rgba(217,119,6,0.1);color:#d97706">04</span>
+      <span>개통 및 유심 계획</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ag-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: 9px; cursor: pointer;
+    font-size: 13px; font-weight: 500; color: #0f172a;
+    transition: background 0.15s;
+  }
+  .ag-item:hover { background: #f1f5f9; }
+  .ag-item.ag-active { background: #f1f5f9; font-weight: 700; }
+  .ag-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 20px; border-radius: 6px;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+</style>
+
+<!-- ─────── NAV ─────── -->
+<div class="nav-bar">
+  <button class="nav-btn" id="btn-prev" onclick="prevSlide()">‹</button>
+  <div class="nav-dots" id="nav-dots"></div>
+  <button class="nav-btn" id="btn-next" onclick="nextSlide()">›</button>
+</div>
+
+<script>
+  const TOTAL = 6;
+  let cur = 1;
+
+  const dotsEl = document.getElementById('nav-dots');
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 1 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function updateUI() {
+    document.querySelectorAll('.slide').forEach(s =>
+      s.classList.toggle('active', +s.dataset.slide === cur)
+    );
+    document.querySelectorAll('.nav-dot').forEach((d, i) =>
+      d.classList.toggle('active', i + 1 === cur)
+    );
+    document.getElementById('progress-bar').style.width = `${(cur / TOTAL) * 100}%`;
+    document.getElementById('btn-prev').disabled = cur === 1;
+    document.getElementById('btn-next').disabled = cur === TOTAL;
+
+    // Agenda 드롭다운: 슬라이드 3~6에서만 표시
+    const wrap = document.getElementById('agenda-dropdown-wrap');
+    wrap.style.display = cur >= 3 ? 'block' : 'none';
+
+    // 현재 Agenda 활성 표시
+    document.querySelectorAll('.ag-item').forEach((el, i) => {
+      el.classList.toggle('ag-active', i + 3 === cur);
+    });
+
+    // 메뉴 닫기
+    closeAgendaMenu();
+  }
+
+  function nextSlide() { if (cur < TOTAL) { cur++; updateUI(); } }
+  function prevSlide() { if (cur > 1)    { cur--; updateUI(); } }
+  function goTo(n)     { cur = n; updateUI(); }
+
+  let agendaOpen = false;
+  function toggleAgendaMenu() {
+    agendaOpen = !agendaOpen;
+    document.getElementById('agenda-menu').style.display = agendaOpen ? 'block' : 'none';
+    document.getElementById('agenda-arrow').style.transform = agendaOpen ? 'rotate(180deg)' : '';
+  }
+  function closeAgendaMenu() {
+    agendaOpen = false;
+    document.getElementById('agenda-menu').style.display = 'none';
+    document.getElementById('agenda-arrow').style.transform = '';
+  }
+  function agendaGo(n) { goTo(n); }
+
+  document.addEventListener('click', e => {
+    if (!document.getElementById('agenda-dropdown-wrap').contains(e.target)) closeAgendaMenu();
+  });
+
+  function switchTab(el, panelId, color) {
+    el.closest('.slide').querySelectorAll('.tab-btn').forEach(b => { b.className = 'tab-btn'; });
+    el.classList.add('active-' + color);
+    el.closest('.slide').querySelectorAll('.tab-panel').forEach(p => p.classList.remove('show'));
+    document.getElementById('panel-' + panelId).classList.add('show');
+  }
+
+  function switchTabUsim(el, panelId) {
+    el.closest('.slide').querySelectorAll('.tab-btn').forEach(b => {
+      b.style.background = ''; b.style.color = ''; b.className = 'tab-btn';
+    });
+    el.style.background = 'rgba(245,158,11,0.15)';
+    el.style.color = '#f59e0b';
+    el.closest('.slide').querySelectorAll('.tab-panel').forEach(p => p.classList.remove('show'));
+    document.getElementById('panel-' + panelId).classList.add('show');
+  }
+
+  // 슬라이드 6 초기 탭 활성화 (개통 개요)
+  document.addEventListener('DOMContentLoaded', () => {
+    const t = document.getElementById('tab-usim-1');
+    if (t) { t.style.background='rgba(217,119,6,0.12)'; t.style.color='#d97706'; }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','ArrowDown'].includes(e.key)) nextSlide();
+    if (['ArrowLeft','ArrowUp'].includes(e.key))   prevSlide();
+  });
+
+  updateUI();
+</script>
+</body>
+</html>
