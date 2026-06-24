@@ -652,121 +652,142 @@
 
     <!-- ═══ CHAPTER 1: 개통 개요 (시트 기반) ═══ -->
     <div class="tab-panel show" id="panel-usim-ch1">
-      <div style="display:flex;flex-direction:column;gap:20px;overflow-y:auto;height:100%;padding-right:4px">
+      <div style="display:flex;flex-direction:column;gap:24px;overflow-y:auto;height:100%;padding-right:4px">
 
-        <!-- 두 모델 비교 카드 -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div style="background:#eff6ff;border:2px solid #2563eb;border-radius:14px;padding:22px">
-            <div style="font-size:10px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:10px">📱 단말기 개통 판매</div>
-            <div style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:10px">단말기 + 요금제 결합 판매(가입) 유치</div>
-            <div style="font-size:13px;color:#475569;line-height:1.8">스마트폰과 통신 요금제를 결합하여 판매하는 형태. 단말기 출고가에서 통신사·유통망 지원금을 공제받아 실제 구매가를 낮추고, 통신사 요금제를 결합하여 최종 월 납부 금액을 산정.</div>
-            <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
-              <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">제조사: 삼성/애플</span>
-              <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">MNO/MVNO</span>
-              <span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">자체 요금제</span>
+        <!-- 1. 개요 비교 카드 -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">개요 및 비교 프레임</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="background:#eff6ff;border:2px solid #2563eb;border-radius:14px;padding:22px">
+              <div style="font-size:10px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:10px">📱 단말기 개통 판매</div>
+              <div style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:10px">단말기 + 요금제 결합 판매(가입) 유치</div>
+              <div style="font-size:13px;color:#475569;line-height:1.8;margin-bottom:14px">단말기(스마트폰)와 통신 요금제를 결합하여 판매하는 형태다. 단말기 출고가에서 통신사 지원금과 유통망 지원금을 공제받아 실제 구매가를 낮추고, 통신사 요금제를 결합하여 최종 월 납부 금액을 산정한다.</div>
+              <table style="width:100%;border-collapse:collapse;font-size:12px">
+                <tr style="border-bottom:1px solid rgba(37,99,235,0.15)">
+                  <td style="padding:5px 8px;color:#64748b;font-weight:600;width:90px">단말기 구성</td>
+                  <td style="padding:5px 8px;color:#0f172a;font-weight:500">제조사 : 삼성 / 애플</td>
+                </tr>
+                <tr>
+                  <td style="padding:5px 8px;color:#64748b;font-weight:600">요금제 구성</td>
+                  <td style="padding:5px 8px;color:#0f172a;font-weight:500">통신사 자체 요금제 (MNO/MVNO)</td>
+                </tr>
+              </table>
             </div>
-          </div>
-          <div style="background:#f0fdf4;border:2px solid #059669;border-radius:14px;padding:22px">
-            <div style="font-size:10px;font-weight:700;color:#059669;letter-spacing:1px;margin-bottom:10px">📶 유심 개통 판매</div>
-            <div style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:10px">요금제 (USIM/eSIM) 단독 판매(가입) 유치</div>
-            <div style="font-size:13px;color:#475569;line-height:1.8">단말기 없이 USIM/eSIM 기반 요금제 가입만을 중개하는 방식. MVNO 유심 요금제가 시장에서 보편화되어 있으며, 최근 MNO 유심 요금제도 시장 진입.</div>
-            <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
-              <span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">단말기 없음</span>
-              <span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">MNO/MVNO</span>
-              <span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600">자체 요금제</span>
+            <div style="background:#f0fdf4;border:2px solid #059669;border-radius:14px;padding:22px">
+              <div style="font-size:10px;font-weight:700;color:#059669;letter-spacing:1px;margin-bottom:10px">📶 유심 개통 판매</div>
+              <div style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:10px">요금제 (USIM/eSIM) 단독 판매(가입) 유치</div>
+              <div style="font-size:13px;color:#475569;line-height:1.8;margin-bottom:14px">단말기 없이 USIM/eSIM 기반 요금제 가입만을 중개하는 방식이다. MVNO 유심 요금제가 시장에서 보편화되어 있으며, 최근 MNO 유심 요금제도 시장에 진입한 상태다.</div>
+              <table style="width:100%;border-collapse:collapse;font-size:12px">
+                <tr style="border-bottom:1px solid rgba(5,150,105,0.15)">
+                  <td style="padding:5px 8px;color:#64748b;font-weight:600;width:90px">단말기 구성</td>
+                  <td style="padding:5px 8px;color:#475569;font-weight:500">없음</td>
+                </tr>
+                <tr>
+                  <td style="padding:5px 8px;color:#64748b;font-weight:600">요금제 구성</td>
+                  <td style="padding:5px 8px;color:#0f172a;font-weight:500">통신사 자체 요금제 (MNO/MVNO)</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
 
-        <!-- 구성 비교 -->
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th style="width:130px">항목</th>
-              <th>📱 단말기 개통</th>
-              <th>📶 유심 개통</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="cell-l2">단말기 구성</td>
-              <td>제조사 : 삼성 / 애플</td>
-              <td style="color:var(--text-muted)">없음</td>
-            </tr>
-            <tr>
-              <td class="cell-l2">요금제 구성</td>
-              <td>통신사 자체 요금제 (MNO / MVNO)</td>
-              <td>통신사 자체 요금제 (MNO / MVNO)</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- 핵심 차이 요약 -->
+        <!-- 2. 비교 프레임 — 단말기 개통 판매 -->
         <div>
-          <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">핵심 차이 요약</div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th style="width:150px">비교 항목</th>
-                <th>📱 단말기 개통</th>
-                <th>📶 유심 개통 Only</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="cell-l2">수익 단가</td>
-                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; 건당 3~12만원 이상</td>
-                <td><span class="why-tag" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; 건당 5,000~20,000원</td>
-              </tr>
-              <tr>
-                <td class="cell-l2">초기 진입장벽</td>
-                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; MNO 계약 + 단말 재고 + 오프라인 거점</td>
-                <td><span class="why-tag" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; MVNO API 연동만으로 진입 가능</td>
-              </tr>
-              <tr>
-                <td class="cell-l2">운영 복잡도</td>
-                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; 재고, 정산, 클로백, A/S</td>
-                <td><span class="why-tag" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; 개통 중계만 처리</td>
-              </tr>
-              <tr>
-                <td class="cell-l2">중고폰 연계</td>
-                <td style="color:#dc2626">MNO 정책상 외부 중고폰 연계 불가</td>
-                <td style="color:#059669">✅ 중고폰 구매 후 MVNO 개통 연결 자연스러움</td>
-              </tr>
-              <tr>
-                <td class="cell-l2">Lock-in</td>
-                <td><span class="why-tag" style="background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)">높음</span>&nbsp; 24개월 약정 + 가족결합</td>
-                <td><span class="why-tag" style="background:rgba(5,150,105,0.1);color:#059669;border:1px solid rgba(5,150,105,0.2)">낮음</span>&nbsp; 무약정 자유 해지</td>
-              </tr>
-              <tr>
-                <td class="cell-l2">플랫폼 BM 적합도</td>
-                <td style="color:#dc2626">낮음 — 오프라인 기반, 플랫폼 경유 시 수익 감소</td>
-                <td style="color:#059669">높음 — CPA 방식, 온라인 중계 모델에 최적화</td>
-              </tr>
-              <tr>
-                <td class="cell-l2" style="color:#d97706;font-weight:700">번개장터 진입 가능성</td>
-                <td style="color:#dc2626">낮음 — MNO 자격 필수, 중고폰→MNO 연계 구조적 차단</td>
-                <td style="color:#059669;font-weight:600">✅ 가능 — MVNO 판매점 계약만으로 진입, 중고폰 → USIM 개통 자연 연결</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 가입 유형 비교 -->
-        <div>
-          <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">가입 유형 비교</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-            <div style="background:#fff7ed;border:1px solid rgba(217,119,6,0.25);border-radius:12px;padding:16px">
-              <div style="font-size:12px;font-weight:700;color:#d97706;letter-spacing:1px;margin-bottom:8px">번호이동</div>
-              <div style="font-size:13px;color:#475569;line-height:1.9">순증: 자사+1 / 타사-1<br>통신사 선호도: ★★★<br>장려금: 5~15만원<br><span style="color:#059669;font-weight:600">소비자 혜택 가장 풍부</span></div>
+          <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">비교 프레임 — 단말기 개통 판매</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+            <!-- 납부 구조 -->
+            <div style="background:var(--surface);border:1px solid rgba(37,99,235,0.2);border-radius:12px;overflow:hidden">
+              <div style="background:#eff6ff;padding:10px 16px;font-size:11px;font-weight:700;color:#2563eb;letter-spacing:1px">가입형태 : 신규가입 / 번호이동 / 기기변경</div>
+              <table style="width:100%;border-collapse:collapse;font-size:12px">
+                <tr style="background:rgba(37,99,235,0.04)">
+                  <td style="padding:8px 14px;color:#475569;font-weight:600;border-bottom:1px solid rgba(0,0,0,0.05)">월 예상 납부금액</td>
+                  <td style="padding:8px 14px;font-weight:700;color:#2563eb;text-align:right;border-bottom:1px solid rgba(0,0,0,0.05)">84,810원</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 14px 6px 22px;color:#94a3b8;font-size:11px;border-bottom:1px solid rgba(0,0,0,0.04)">제휴카드 할인 미적용 시</td>
+                  <td style="padding:6px 14px;color:#94a3b8;font-size:11px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">109,810원</td>
+                </tr>
+                <tr class="divider-row"><td colspan="2" style="padding:5px 14px;background:rgba(0,0,0,0.02);font-size:10px;font-weight:700;letter-spacing:1px;color:#94a3b8">단말기</td></tr>
+                <tr>
+                  <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">출고가</td>
+                  <td style="padding:6px 14px;color:#475569;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">1,254,000원</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">휴대폰 할인합계</td>
+                  <td style="padding:6px 14px;color:#f87171;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-575,000원</td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 14px 4px 24px;color:#94a3b8;font-size:11px;border-bottom:1px solid rgba(0,0,0,0.04)">↳ 이통사지원금</td>
+                  <td style="padding:4px 14px;color:#94a3b8;font-size:11px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-500,000원</td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 14px 6px 24px;color:#94a3b8;font-size:11px;border-bottom:1px solid rgba(0,0,0,0.04)">↳ 유통망지원금</td>
+                  <td style="padding:4px 14px 6px;color:#94a3b8;font-size:11px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-75,000원</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">할부원금</td>
+                  <td style="padding:6px 14px;font-weight:700;color:#0f172a;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">679,000원</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 14px;color:#94a3b8;font-size:11px;border-bottom:1px solid rgba(0,0,0,0.04)">할부수수료 (연 5.9%)</td>
+                  <td style="padding:6px 14px;color:#94a3b8;font-size:11px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">42,510원</td>
+                </tr>
+                <tr class="divider-row"><td colspan="2" style="padding:5px 14px;background:rgba(0,0,0,0.02);font-size:10px;font-weight:700;letter-spacing:1px;color:#94a3b8">요금제</td></tr>
+                <tr>
+                  <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">데이터플랜MAX</td>
+                  <td style="padding:6px 14px;color:#475569;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">85,000원</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">요금제 할인합계</td>
+                  <td style="padding:6px 14px;color:#f87171;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-30,250원</td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 14px 4px 24px;color:#94a3b8;font-size:11px;border-bottom:1px solid rgba(0,0,0,0.04)">↳ 프리미어약정할인</td>
+                  <td style="padding:4px 14px;color:#94a3b8;font-size:11px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-5,250원</td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 14px 6px 24px;color:#94a3b8;font-size:11px">↳ 제휴카드 (LG U+ 현대카 등)</td>
+                  <td style="padding:4px 14px 6px;color:#94a3b8;font-size:11px;text-align:right">-25,000원</td>
+                </tr>
+              </table>
             </div>
-            <div style="background:#f0f9ff;border:1px solid rgba(37,99,235,0.2);border-radius:12px;padding:16px">
-              <div style="font-size:12px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:8px">신규 가입</div>
-              <div style="font-size:13px;color:#475569;line-height:1.9">순증: 자사+1 / 타사 0<br>통신사 선호도: ★★☆<br>장려금: 3~7만원<br><span style="color:#2563eb;font-weight:600">중간 수준</span></div>
-            </div>
-            <div style="background:#f8fafc;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:16px">
-              <div style="font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:1px;margin-bottom:8px">기기변경</div>
-              <div style="font-size:13px;color:#475569;line-height:1.9">순증: 변동 없음<br>통신사 선호도: ★☆☆<br>장려금: 1~3만원<br><span style="color:#94a3b8;font-weight:600">혜택 가장 적음</span></div>
+            <!-- 결론 -->
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="background:#fffbeb;border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:18px">
+                <div style="font-size:11px;font-weight:700;color:#d97706;margin-bottom:8px">결론</div>
+                <div style="font-size:13px;color:#475569;line-height:1.9">단말기+요금제를 결합하여 제조사로부터 장려금을 받아 스마트폰 출시가를 <strong style="color:#0f172a">자급제 대비 낮추고</strong> 요금제를 묶어 결합 판매하는 형태.<br>제조사는 단말기 판매 매출 수익을 일으키고, <strong style="color:#0f172a">통신사는 요금제 가입으로 요금제 수익 창출.</strong></div>
+              </div>
+              <!-- 유심 개통 프레임 -->
+              <div style="background:var(--surface);border:1px solid rgba(5,150,105,0.2);border-radius:12px;overflow:hidden">
+                <div style="background:#f0fdf4;padding:10px 16px;font-size:11px;font-weight:700;color:#059669;letter-spacing:1px">📶 유심 개통 판매 — 요금 예시</div>
+                <div style="padding:4px 0;font-size:11px;color:#64748b;padding:8px 14px 4px">가입형태 : 신규가입 / 번호이동</div>
+                <table style="width:100%;border-collapse:collapse;font-size:12px">
+                  <tr>
+                    <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">요금제 : 너겟 65</td>
+                    <td style="padding:6px 14px;color:#475569;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">65,000원</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">구글 AI PRO</td>
+                    <td style="padding:6px 14px;color:#f87171;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-29,000원</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">네이버페이</td>
+                    <td style="padding:6px 14px;color:#f87171;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-12,000원</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">U+ 멤버십</td>
+                    <td style="padding:6px 14px;color:#f87171;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-7,000원</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 14px;color:#475569;border-bottom:1px solid rgba(0,0,0,0.04)">부가혜택 (결합, 안심 서비스 등)</td>
+                    <td style="padding:6px 14px;color:#f87171;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04)">-15,400원</td>
+                  </tr>
+                  <tr style="background:rgba(5,150,105,0.05)">
+                    <td style="padding:8px 14px;font-weight:700;color:#059669">실질 납부금액</td>
+                    <td style="padding:8px 14px;font-weight:800;color:#059669;text-align:right;font-size:15px">1,600원</td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>
