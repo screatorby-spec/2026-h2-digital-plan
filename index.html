@@ -732,6 +732,32 @@
           </table>
         </div>
 
+        <!-- 구성 비교 -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#94a3b8;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">구성 비교</div>
+          <table class="data-table" style="max-width:600px">
+            <thead>
+              <tr>
+                <th style="width:130px">항목</th>
+                <th>📱 단말기 개통</th>
+                <th>📶 유심 개통</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-l2">단말기 구성</td>
+                <td>제조사 : 삼성 / 애플</td>
+                <td style="color:var(--text-muted)">없음</td>
+              </tr>
+              <tr>
+                <td class="cell-l2">요금제 구성</td>
+                <td>통신사 자체 요금제 (MNO / MVNO)</td>
+                <td>통신사 자체 요금제 (MNO / MVNO)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <!-- 가입 유형 비교 -->
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
           <div style="background:#fff7ed;border:1px solid rgba(217,119,6,0.25);border-radius:10px;padding:12px">
@@ -910,36 +936,40 @@
         <div style="background:var(--surface);border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:20px;">
           <div style="font-size:11px;font-weight:700;color:#2563eb;letter-spacing:1px;margin-bottom:8px;">본사 (MNO)</div>
           <div style="font-size:18px;font-weight:700;margin-bottom:4px;">요금 100%</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">개인 판매가: 높음</div>
-          <div style="font-size:12px;color:#475569;line-height:1.7;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
-            · 직판 시 요금 100% 본사 매출<br>
-            · 주 매출: 통신료 &gt; 부가서비스 &gt; B2B<br>
-            · 단말기 마진 거의 없음<br>
-            · 전국 직영 불가 → 대리점에 위임
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">개인 판매가: 높음</div>
+          <div style="font-size:11px;background:rgba(37,99,235,0.08);color:#2563eb;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;font-weight:600">요금수수료 안 나감</div>
+          <div style="font-size:12px;color:#475569;line-height:1.8;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
+            · 직접 판매(다이렉트몰·직영점) 시 요금 100% 본사 매출<br>
+            · 주 매출: 통신료(압도적 1위) &gt; 부가서비스 &gt; B2B·IoT &gt; 망도매<br>
+            · 단말기 마진은 거의 없음 (원가 수준)<br>
+            · 전국 직접 운영이 불가능해 대리점·판매점에 영업 위임
           </div>
         </div>
         <!-- 대리점 -->
         <div style="background:var(--surface);border:1px solid rgba(139,92,246,0.25);border-radius:12px;padding:20px;">
           <div style="font-size:11px;font-weight:700;color:#7c3aed;letter-spacing:1px;margin-bottom:8px;">대리점</div>
           <div style="font-size:18px;font-weight:700;margin-bottom:4px;">수수료 + 장려금</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">개인 판매가: 중간</div>
-          <div style="font-size:12px;color:#475569;line-height:1.7;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
-            · 요금수수료 5~7%, 24개월간<br>
-            · 장려금: 건당 단가표 기반<br>
-            · 조건 위반 시 환수 리스크<br>
-            · 단가표 매일 변동
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">개인 판매가: 중간</div>
+          <div style="font-size:11px;background:rgba(124,58,237,0.08);color:#7c3aed;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;font-weight:600">전산 보유 · 장기 수익</div>
+          <div style="font-size:12px;color:#475569;line-height:1.8;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
+            · 본사와 직접 계약한 공식 파트너 (개통 전산 권한 보유)<br>
+            · 수익 ① 요금수수료 — 요금의 5~7%, 24개월간 (대리점만)<br>
+            · 수익 ② 장려금 — 단가표 기반 건당 보너스<br>
+            · 조건 有 → 요금제 6개월 유지·제휴카드·부가서비스 (위반 시 환수)<br>
+            · 단가표 매일 변동 → 같은 폰도 날짜·매장마다 가격 다름
           </div>
         </div>
         <!-- 판매점 -->
         <div style="background:var(--surface);border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:20px;">
           <div style="font-size:11px;font-weight:700;color:#059669;letter-spacing:1px;margin-bottom:8px;">판매점 (성지)</div>
           <div style="font-size:18px;font-weight:700;margin-bottom:4px;">장려금 마진만</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">개인 판매가: 낮음</div>
-          <div style="font-size:12px;color:#475569;line-height:1.7;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
-            · 요금수수료 없음<br>
-            · 여러 대리점 단가표 비교 선택<br>
-            · 박리다매 구조<br>
-            · 개통은 대리점 경유
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">개인 판매가: 낮음</div>
+          <div style="font-size:11px;background:rgba(5,150,105,0.08);color:#059669;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;font-weight:600">여러 대리점 비교</div>
+          <div style="font-size:12px;color:#475569;line-height:1.8;border-top:1px solid rgba(0,0,0,0.08);padding-top:12px;">
+            · 대리점과 계약한 하위 매장 (개통은 대리점 경유)<br>
+            · 수익은 장려금 마진만 (요금수수료 없음)<br>
+            · 여러 대리점 단가표를 비교해 가장 좋은 조건 선택<br>
+            · 박리다매 구조
           </div>
         </div>
       </div>
